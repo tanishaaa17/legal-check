@@ -1,18 +1,29 @@
+<<<<<<< HEAD
 # Legal Check Platform
 
 A comprehensive legal services platform built with the MERN stack (MongoDB, Express.js, React, Node.js). The platform provides user authentication, secure login/registration, and a dashboard for uploading and simplifying legal documents using AI.
+=======
+# ⚖️ LegalEase
 
-## Features
+**LegalEase** uses Large Language Models (LLMs) like **ChatGPT** or **Gemini** to analyze, understand, simplify, and generate legal content.
+>>>>>>> c1598a82b0b0dbf50800690ad97195f9536a9c4d
 
+---
+
+<<<<<<< HEAD
 - User authentication with JWT tokens
 - Secure password hashing with bcrypt
 - PDF upload and processing
 - AI-powered legal document simplification using Gemini API
 - Protected dashboard routes
 - Modern responsive UI with custom CSS
+=======
+## 🚀 Features
+>>>>>>> c1598a82b0b0dbf50800690ad97195f9536a9c4d
 
-## Tech Stack
+LegalEase is designed to assist both legal professionals and everyday users with tasks such as:
 
+<<<<<<< HEAD
 ### Backend
 - Node.js and Express.js
 - MongoDB with Mongoose
@@ -108,3 +119,24 @@ GEMINI_API_KEY=your_gemini_api_key
 ## Author
 
 Tanisha Agarwal - GitHub: @tanishaaa17
+=======
+- 📝 **Summarizing** lengthy legal documents  
+- 🧾 **Generating** legal templates (e.g., contracts, NDAs)  
+- 🗣 **Explaining** legal jargon in simple terms  
+- 🌍 **Translating** legal documents into local languages  
+- 🔍 **Extracting** important clauses or obligations  
+
+---
+
+## 🤝 Contributing
+
+Feel free to fork the repo, submit issues, or propose enhancements.  
+All contributions are welcome to help improve LegalEase!
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — feel free to use it in your own applications.
+
+>>>>>>> c1598a82b0b0dbf50800690ad97195f9536a9c4d
