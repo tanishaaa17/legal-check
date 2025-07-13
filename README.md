@@ -1,21 +1,29 @@
-# LegalEase
+# ⚖️ LegalEase
 
-LegalEase is uses Large Language Models (LLMs) like ChatGPT or Gemini—to analyze, understand, simplify, and generate legal content.
+**LegalEase** uses Large Language Models (LLMs) like **ChatGPT** or **Gemini** to analyze, understand, simplify, and generate legal content.
 
-## Features
+---
 
-It is designed to help both legal professionals and everyday users with tasks such as:
+## 🚀 Features
 
-📝 Summarizing lengthy legal documents
-🧾 Generating legal templates (e.g., contracts, NDAs)
-🗣 Explaining legal jargon in simple terms
-🌍 Translating legal documents into local languages
-🔍 Extracting important clauses or obligations
+LegalEase is designed to assist both legal professionals and everyday users with tasks such as:
 
-## Contributing
+- 📝 **Summarizing** lengthy legal documents  
+- 🧾 **Generating** legal templates (e.g., contracts, NDAs)  
+- 🗣 **Explaining** legal jargon in simple terms  
+- 🌍 **Translating** legal documents into local languages  
+- 🔍 **Extracting** important clauses or obligations  
 
-Feel free to submit issues and enhancement requests!
+---
 
-## License
+## 🤝 Contributing
 
-MIT License - feel free to use this project for your own applications. 
+Feel free to fork the repo, submit issues, or propose enhancements.  
+All contributions are welcome to help improve LegalEase!
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — feel free to use it in your own applications.
+
