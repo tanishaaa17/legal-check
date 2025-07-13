@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
+import Dashboard from './components/Dashboard';
 import './App.css';
 
 const API_BASE_URL = 'http://localhost:5001/api';
@@ -17,15 +19,42 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState({ type: '', text: '' });
   const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+  // Check if user is authenticated on component mount
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      checkAuthStatus();
+    }
+  }, []);
 
-  const handleSubmit = async (e) => {
+  const checkAuthStatus = useCallback(async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API_BASE_URL}/auth/profile`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      setUser(response.data);
+      setIsAuthenticated(true);
+    } catch (error) {
+      localStorage.removeItem('token');
+      setIsAuthenticated(false);
+      setUser(null);
+    }
+  }, []);
+
+  const handleInputChange = useCallback((e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }, []);
+
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage({ type: '', text: '' });
@@ -37,7 +66,7 @@ function App() {
         return;
       }
 
-      const endpoint = isLogin ? '/login' : '/register';
+      const endpoint = isLogin ? '/auth/login' : '/auth/register';
       const data = isLogin 
         ? { email: formData.email, password: formData.password }
         : { name: formData.name, email: formData.email, password: formData.password };
@@ -46,6 +75,7 @@ function App() {
       
       setMessage({ type: 'success', text: response.data.message });
       setUser(response.data.user);
+      setIsAuthenticated(true);
       
       // Store token in localStorage
       localStorage.setItem('token', response.data.token);
@@ -66,15 +96,16 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [isLogin, formData]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setUser(null);
+    setIsAuthenticated(false);
     localStorage.removeItem('token');
     setMessage({ type: 'success', text: 'Logged out successfully' });
-  };
+  }, []);
 
-  const toggleForm = () => {
+  const toggleForm = useCallback(() => {
     setIsLogin(!isLogin);
     setFormData({
       name: '',
@@ -83,29 +114,10 @@ function App() {
       confirmPassword: ''
     });
     setMessage({ type: '', text: '' });
-  };
+  }, [isLogin]);
 
-  if (user) {
-    return (
-      <div className="container">
-        <div className="auth-form">
-          <h1 className="form-title">Welcome Back!</h1>
-          <div className="success-message">
-            Hello, {user.name}! You are successfully logged in.
-          </div>
-          <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>User ID:</strong> {user.id}</p>
-          </div>
-          <button className="btn" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
+  // Authentication Form Component
+  const AuthForm = React.memo(() => (
     <div className="container">
       <form className="auth-form" onSubmit={handleSubmit}>
         <h1 className="form-title">
@@ -113,8 +125,8 @@ function App() {
         </h1>
         <p className="form-subtitle">
           {isLogin 
-            ? 'Sign in to your account to continue' 
-            : 'Join us and start your journey today'
+            ? 'Sign in to your Legal Check account' 
+            : 'Join Legal Check and start your journey today'
           }
         </p>
 
@@ -228,6 +240,27 @@ function App() {
         </div>
       </form>
     </div>
+  ));
+
+  return (
+    <Router>
+      <Routes>
+        <Route 
+          path="/" 
+          element={isAuthenticated ? <Navigate to="/dashboard" /> : <AuthForm />} 
+        />
+        <Route 
+          path="/dashboard" 
+          element={
+            isAuthenticated ? (
+              <Dashboard user={user} onLogout={handleLogout} />
+            ) : (
+              <Navigate to="/" />
+            )
+          } 
+        />
+      </Routes>
+    </Router>
   );
 }
 
